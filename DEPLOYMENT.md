@@ -2,7 +2,7 @@
 
 ## Prerequisites
 - GitHub account
-- Render.com account (free tier)
+- Railway.app account (free $5/month credit)
 - Vercel account (free tier)
 
 ## Step 1: Push to GitHub
@@ -17,36 +17,41 @@ git remote add origin https://github.com/makersahil/TaskFlow.git
 git push -u origin main
 ```
 
-## Step 2: Deploy Backend on Render
+## Step 2: Deploy Backend on Railway
 
-1. Go to https://render.com and sign in
-2. Click "New +" → "Web Service"
-3. Connect your GitHub repository: `makersahil/TaskFlow`
-4. Configure:
-   - **Name**: `taskflow-backend`
+1. Go to https://railway.app and sign in with GitHub
+2. Click "New Project" → "Deploy from GitHub repo"
+3. Select your repository: `makersahil/TaskFlow`
+4. Railway will detect it's a Spring Boot app automatically
+
+5. Configure Service:
+   - Click on the service that was created
+   - Go to "Settings"
    - **Root Directory**: `backend-app`
-   - **Runtime**: `Java`
-   - **Build Command**: `./mvnw clean package -DskipTests`
-   - **Start Command**: `java -jar target/taskflow-backend-0.0.1-SNAPSHOT.jar`
-   - **Plan**: Free
+   - **Build Command**: (auto-detected: `mvn clean install -DskipTests`)
+   - **Start Command**: (auto-detected: `java -jar target/taskflow-backend-0.0.1-SNAPSHOT.jar`)
 
-5. Add PostgreSQL Database:
-   - Click "New +" → "PostgreSQL"
-   - **Name**: `taskflow-db`
-   - **Database**: `taskflow`
-   - **User**: `taskflow_user`
-   - **Plan**: Free (expires after 90 days, but easy to renew)
+6. Add PostgreSQL Database:
+   - Click "New" → "Database" → "Add PostgreSQL"
+   - Railway automatically creates database and sets `DATABASE_URL` environment variable
 
-6. Set Environment Variables in Render:
-   - `SPRING_PROFILES_ACTIVE` = `prod`
-   - `DATABASE_URL` = (copy from PostgreSQL → Internal Database URL)
-   - `JWT_SECRET` = (generate random 64-char string from https://generate-secret.vercel.app/)
-   - `CORS_ALLOWED_ORIGINS` = `https://taskflow-yourusername.vercel.app` (will update after frontend deploy)
-   - `PORT` = `9090`
+7. Set Additional Environment Variables:
+   - Click your backend service → "Variables" tab
+   - Add these variables:
+     - `SPRING_PROFILES_ACTIVE` = `prod`
+     - `JWT_SECRET` = (click "Generate" or paste a random 64-char string)
+     - `CORS_ALLOWED_ORIGINS` = `https://taskflow-yourusername.vercel.app` (update after frontend deploy)
+     - `PORT` = `9090`
 
-7. Click "Create Web Service"
-8. Wait for deployment (5-10 minutes)
-9. Note your backend URL: `https://taskflow-backend.onrender.com`
+8. Generate Domain:
+   - Go to "Settings" → "Networking"
+   - Click "Generate Domain"
+   - Note your backend URL (e.g., `taskflow-backend-production.up.railway.app`)
+
+9. Deploy:
+   - Railway automatically deploys on first setup
+   - Wait 3-5 minutes for build and deployment
+   - Check "Deployments" tab for status
 
 ## Step 3: Deploy Frontend on Vercel
 
@@ -60,16 +65,17 @@ git push -u origin main
    - **Output Directory**: `.next`
 
 5. Add Environment Variable:
-   - `NEXT_PUBLIC_API_BASE_URL` = `https://taskflow-backend.onrender.com/api`
+   - `NEXT_PUBLIC_API_BASE_URL` = `https://your-backend-url.up.railway.app/api`
+   - (Replace with your actual Railway backend URL from Step 2)
 
 6. Click "Deploy"
 7. Wait for deployment (2-3 minutes)
 8. Your frontend URL: `https://taskflow-yourusername.vercel.app`
 
 ## Step 4: Update CORS Origins
-
-1. Go back to Render.com → `taskflow-backend` → Environment
-2. Update `CORS_ALLOWED_ORIGINS` to your Vercel URL: `https://taskflow-yourusername.vercel.app`
+ailway.app → your backend service → Variables
+2. Update `CORS_ALLOWED_ORIGINS` to your actual Vercel URL (e.g., `https://taskflow-abc123.vercel.app`)
+3. Railway will automatically redeploy with new variable URL: `https://taskflow-yourusername.vercel.app`
 3. Click "Save Changes" (will trigger redeploy)
 
 ## Step 5: Test Your Deployment
@@ -81,7 +87,7 @@ git push -u origin main
 
 ## Auto-Deploy from GitHub
 
-✅ **Render**: Automatically deploys when you push to `main` branch
+✅ **Railway**: Automatically deploys when you push to `main` branch
 ✅ **Vercel**: Automatically deploys when you push to `main` branch
 
 To update your app:
@@ -96,16 +102,18 @@ Both services will automatically detect changes and redeploy!
 ## Important URLs
 
 - **Frontend**: https://taskflow-yourusername.vercel.app
-- **Backend**: https://taskflow-backend.onrender.com
-- **Backend Health**: https://taskflow-backend.onrender.com/api/health
-- **Database**: Managed by Render (internal)
+- **Backend**: https://your-backend-url.up.railway.app
+- **Backend Health**: https://your-backend-url.up.railway.app/api/health
+- **Database**: Managed by Railway (internal)
 
 ## Free Tier Limitations
 
-**Render Free Tier:**
-- Backend sleeps after 15 minutes of inactivity (first request takes ~30s to wake)
-- 750 hours/month
-- PostgreSQL free for 90 days (then $7/month or renew free tier)
+**Railway Free Tier:**
+- $5 credit per month (resets monthly)
+- ~500 hours runtime for hobby projects
+- No sleep/downtime (always running)
+- Includes PostgreSQL database
+- After credit exhausted: $10/month minimum or service pauses
 
 **Vercel Free Tier:**
 - 100 GB bandwidth/month
@@ -113,24 +121,31 @@ Both services will automatically detect changes and redeploy!
 - No sleep/cold starts
 
 ## Troubleshooting
-
-**Backend won't start:**
-- Check Render logs for errors
-- Verify DATABASE_URL is set correctly
-- Ensure JWT_SECRET is at least 32 characters
+ailway logs: Click service → "Deployments" → Click latest deployment → View logs
+- Verify DATABASE_URL is automatically set by Railway
+- Ensure JWT_SECRET is set in variables
+- Check Java version is 17+ in logs
 
 **Frontend can't connect to backend:**
-- Check CORS_ALLOWED_ORIGINS matches your Vercel URL exactly
+- Check CORS_ALLOWED_ORIGINS matches your Vercel URL exactly (no trailing slash)
 - Verify NEXT_PUBLIC_API_BASE_URL in Vercel environment variables
-- Check backend health endpoint works
+- Test backend health endpoint: `https://your-backend-url.up.railway.app/api/health`
+- Ensure Railway service has a public domain generated
 
 **Database connection errors:**
-- Verify PostgreSQL is running in Render
+- Railway automatically sets DATABASE_URL - don't override it
+- Verify PostgreSQL service is running in Railway dashboard
+- Check both services are in the same Railway project
 - Check DATABASE_URL format: `jdbc:postgresql://host:port/database`
-- Ensure backend and database are in same Render region
+**To stay within $5 free credit:**
+- Railway includes PostgreSQL in the $5 credit
+- Monitor usage in Railway dashboard
+- Typical small project uses ~$3-4/month
+- If you exceed: add payment method for $10/month minimum
 
-## Cost Optimization
-
+**Alternative if Railway credit runs out:**
+- Move database to Supabase (permanent free tier)
+- Keep backend on Railway (uses less credit without DB
 To avoid PostgreSQL expiry:
 - Use Supabase free tier instead (permanent free tier)
 - Or accept 90-day renewals on Render
