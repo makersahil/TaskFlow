@@ -27,9 +27,9 @@ git push -u origin main
 5. Configure Service:
    - Click on the service that was created
    - Go to "Settings"
-   - **Root Directory**: `backend-app`
-   - **Build Command**: (auto-detected: `mvn clean install -DskipTests`)
-   - **Start Command**: (auto-detected: `java -jar target/taskflow-backend-0.0.1-SNAPSHOT.jar`)
+   - **Root Directory**: `backend-app` ⚠️ **IMPORTANT: Set this first!**
+   - Railway will use `backend-app/railway.json` for build configuration
+   - Build/Start commands are defined in railway.json (no manual config needed)
 
 6. Add PostgreSQL Database:
    - Click "New" → "Database" → "Add PostgreSQL"
@@ -121,7 +121,14 @@ Both services will automatically detect changes and redeploy!
 - No sleep/cold starts
 
 ## Troubleshooting
-ailway logs: Click service → "Deployments" → Click latest deployment → View logs
+
+**"Script start.sh not found" or "Railpack could not determine how to build":**
+- **Solution**: Make sure Root Directory is set to `backend-app` in Railway Settings
+- Railway needs to see `railway.json` file which is in the backend-app directory
+- After setting root directory, trigger a manual redeploy from the Deployments tab
+
+**Backend deployment fails on Railway:**
+- Check Railway logs: Click service → "Deployments" → Click latest deployment → View logs
 - Verify DATABASE_URL is automatically set by Railway
 - Ensure JWT_SECRET is set in variables
 - Check Java version is 17+ in logs
