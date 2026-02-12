@@ -42,7 +42,7 @@ export default function FileUploadPanel({
   const fetchAttachments = async () => {
     try {
       setLoading(true);
-      const data = await apiRequest(apiPath, { method: 'GET' });
+      const data = await apiRequest(apiPath, { method: 'GET' }) as FileAttachment[];
       setAttachments(data);
       setError(null);
     } catch (err) {
