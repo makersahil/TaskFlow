@@ -1,0 +1,325 @@
+.calendarPanel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  background: var(--card);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.viewToggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+}
+
+.toggleButton {
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggleButton:hover {
+  color: var(--ink);
+  border-color: var(--accent);
+}
+
+.toggleButton.active {
+  background: linear-gradient(135deg, var(--accent) 0%, #d97d52 100%);
+  color: white;
+  border-color: var(--accent);
+}
+
+.calendarContent {
+  flex: 1;
+  override: hidden;
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.calendarHeader h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  flex: 1;
+  text-align: center;
+}
+
+.navButton {
+  padding: 6px 10px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--ink);
+}
+
+.navButton:hover {
+  background: var(--bg);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Month View */
+.weekDaysHeader {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  margin-bottom: 4px;
+}
+
+.weekDayName {
+  padding: 8px 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dayCell {
+  background: var(--bg);
+  padding: 8px;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  border: 1px solid transparent;
+}
+
+.dayCell:hover {
+  background: #faf9f7;
+  border-color: var(--accent);
+}
+
+.dayCell.selected {
+  background: #fef3eb;
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.dayCell.otherMonth {
+  background: var(--card);
+  color: var(--muted);
+}
+
+.dayCell.otherMonth .dayNumber {
+  color: var(--muted);
+  opacity: 0.5;
+}
+
+.dayNumber {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+
+.taskIndicators {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  align-items: center;
+  margin-top: auto;
+}
+
+.taskDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.taskDot:hover {
+  transform: scale(1.3);
+}
+
+.moreIndicator {
+  font-size: 10px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+/* Week View */
+.weekView {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  height: 100%;
+}
+
+.weekDayCell {
+  background: var(--bg);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  min-height: 300px;
+}
+
+.weekDayCell:hover {
+  background: #faf9f7;
+  border-color: var(--accent);
+}
+
+.weekDayCell.selected {
+  background: #fef3eb;
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.weekDayCell.otherMonth {
+  background: var(--card);
+  opacity: 0.6;
+}
+
+.weekDayHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.weekDayNumber {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-top: 4px;
+}
+
+.weekTasksList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.weekTaskItem {
+  padding: 6px 8px;
+  background: var(--card);
+  border-left: 3px solid;
+  border-radius: 2px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink);
+  transition: all 0.2s ease;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.weekTaskItem:hover {
+  background: #f9f8f7;
+}
+
+.weekTaskTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.weekTaskMore {
+  font-size: 11px;
+  color: var(--muted);
+  font-style: italic;
+  padding: 4px 8px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .calendarPanel {
+    padding: 12px;
+  }
+
+  .dayCell {
+    min-height: 60px;
+    padding: 6px;
+  }
+
+  .dayNumber {
+    font-size: 12px;
+  }
+
+  .weekDayCell {
+    min-height: 200px;
+  }
+
+  .taskDot {
+    width: 5px;
+    height: 5px;
+  }
+}
+
+@media (max-width: 768px) {
+  .weekDaysHeader {
+    margin-bottom: 2px;
+  }
+
+  .weekDayName {
+    padding: 6px 2px;
+    font-size: 11px;
+  }
+
+  .calendarGrid {
+    gap: 0.5px;
+  }
+
+  .dayCell {
+    min-height: 50px;
+    padding: 4px;
+  }
+
+  .dayNumber {
+    font-size: 11px;
+  }
+
+  .taskIndicators {
+    gap: 2px;
+  }
+
+  .weekView {
+    display: none;
+  }
+}

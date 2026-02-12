@@ -1,0 +1,160 @@
+.panelOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 30, 28, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 80px 24px;
+  z-index: 1000;
+}
+
+.panel {
+  background: var(--card);
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 24px 60px rgba(31, 30, 28, 0.18);
+  width: min(640px, 100%);
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideDown 0.25s ease;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-12px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.panelHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.panelTitle {
+  font-family: var(--font-serif), serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.panelSubtitle {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.closeButton {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--muted);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+}
+
+.closeButton:hover {
+  color: var(--ink);
+  background: rgba(200, 91, 58, 0.08);
+}
+
+.panelActions {
+  padding: 12px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ghostButton {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--ink);
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.panelBody {
+  padding: 16px 24px 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.item.read {
+  opacity: 0.7;
+}
+
+.itemTitle {
+  font-weight: 600;
+  color: var(--ink);
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.itemMessage {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.itemMeta {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.markReadButton {
+  border: none;
+  background: var(--accent);
+  color: white;
+  font-size: 12px;
+  border-radius: 999px;
+  padding: 6px 10px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  font-size: 14px;
+  padding: 24px 0;
+}
+
+@media (max-width: 640px) {
+  .panelOverlay {
+    padding: 60px 16px;
+  }
+
+  .panelHeader {
+    padding: 20px;
+  }
+
+  .panelBody {
+    padding: 12px 16px 20px;
+  }
+}
