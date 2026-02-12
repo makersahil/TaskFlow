@@ -60,9 +60,10 @@ git push -u origin main
 3. Import `makersahil/TaskFlow`
 4. Configure:
    - **Framework Preset**: Next.js
-   - **Root Directory**: `frontend`
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `.next`
+   - **Root Directory**: `frontend` ⚠️ **IMPORTANT: Set this!**
+   - **Install Command**: Leave empty (use default `npm install`)
+   - **Build Command**: Leave empty (use default `npm run build`)
+   - **Output Directory**: Leave empty (use default `.next`)
 
 5. Add Environment Variable:
    - `NEXT_PUBLIC_API_BASE_URL` = `https://your-backend-url.up.railway.app/api`
@@ -121,6 +122,11 @@ Both services will automatically detect changes and redeploy!
 - No sleep/cold starts
 
 ## Troubleshooting
+
+**"cd: frontend: No such file or directory" on Vercel:**
+- **Solution**: In Vercel project settings → "General" → set **Root Directory** to `frontend`
+- Clear any custom Install/Build/Output commands - use Vercel's defaults
+- Redeploy from Vercel dashboard
 
 **"Script start.sh not found" or "Railpack could not determine how to build":**
 - **Solution**: Make sure Root Directory is set to `backend-app` in Railway Settings
